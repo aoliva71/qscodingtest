@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>qs coding test</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+        <script>
+function refresh() {
+    console.log("refresh")
+    axios({
+      method: "get",
+      url: "https://fakerapi.it/api/v1/companies?_quantity=1",
+    })
+      .then(function (response) {
+        console.log(response.data)
+        updateAll(response.data.data[0])
+      });
+}
+
+function updateField(id, value) {
+    let container = document.querySelector("#"+id)
+    container.value = value
+}
+
+function updateAll(data) {
+    updateField("name", data.name)
+    updateField("country", data.country)
+    addr = data.addresses[0]
+    updateField("address", addr.buildingNumber + " " + addr.streetName + " - " + addr.city + " " + addr.zipcode)
+    updateField("email", data.email)
+}
+
+        </script>
+    </head>
+    <body>
+        <h1>call centre app</h1>
+        <h2>find companies to sell our services to</h2>
+        <hr/>
+        <div id="placeholder">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input id="name" type="input" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input id="country" type="input" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input id="address" type="input" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input id="email" type="email" class="form-control">
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="refresh()">next</button>
+        <!-- https://fakerapi.it/api/v1/companies?_quantity=1 -->
+    </body>
+</html>
